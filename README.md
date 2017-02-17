@@ -1,3 +1,34 @@
+
+# For Survival Analysis
+
+Fix data path: 
+```sh
+	p = os.path.join(os.getcwd(), '../survivalnet/data/Brain_Integ.mat')
+```
+You can use the gene data if your machine's memory allows.
+```sh
+	X = D['Integ_X']
+  or 
+  X = D['Gene_X']
+```
+```sh
+fold_size = int(10 * len(X) / 100)
+```
+this means 10% of the data goes to validation and 10% to testing.
+
+set graph construction parameters. Here 4 nearest neighbors are connected to each node based on Euclidean distance:
+```sh
+dist, idx = graph.distance_scipy_spatial(X_train.T, k=4, metric='euclidean')
+```
+
+graph coarsening level should be set to however many times you divide the data by 2 through pooling. So, one 2x2 pooling layer requires a coarsening level of 1, one 2x2 and two 4x4 pooling layers require coarsening level of 5.
+```sh
+graphs, perm = coarsening.coarsen(A, levels=CL, self_connections=False)
+```
+
+
+
+
 # Spectral Graph Convolutional Neural Network (SGCNN)
 
 The code in this repository implements an efficient generalization of the
